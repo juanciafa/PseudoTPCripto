@@ -5,7 +5,11 @@
 #include "data.h"
 #include "utis.h"
 
-segment_tree::segment_tree(){};
+segment_tree::segment_tree()
+{
+	size_ = 0;
+	tree_ = Array<data>();
+};
 
 size_t upper_power_of_two(size_t v)
 {
@@ -19,11 +23,18 @@ size_t upper_power_of_two(size_t v)
     return v;
 
 }
+
+segment_tree::segment_tree(const segment_tree & other)
+{
+	tree_ = other.tree_;
+	size_ = other.size_;
+}
+
 segment_tree::segment_tree(const Array<data> & arr)
 {
 	// El arbol tendra la forma:
 	// __________________
-	//| |  |    |        |
+	//|_|__|____|________|
 	// Es decir, tree_[0] es el nodo en el mayor nivel, y después van 
 	// los hijos.
 	// El arreglo original se encuentra desde tree_.size() hasta el final
@@ -50,7 +61,7 @@ segment_tree::segment_tree(const Array<data> & arr)
 	}
 }
 
-data segment_tree::search_interval(size_t start, size_t end)
+data segment_tree::search_interval(size_t start, size_t end) const
 {
 	data root,left,right;
 	size_t pos_root,pos_l,pos_r;
@@ -75,7 +86,7 @@ data segment_tree::search_interval(size_t start, size_t end)
 		return data(left,right);
 	}
 }
-data segment_tree::_search_interval(size_t pos, size_t start, size_t end)
+data segment_tree::_search_interval(size_t pos, size_t start, size_t end) const
 {
 	data root,left,right;
 	size_t pos_l,pos_r;

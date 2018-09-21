@@ -4,6 +4,7 @@ CC= g++
 all: tp clean
 data_test: data_main clean
 stree_test: stree_main clean
+sensor_test: sensor_main clean
 
 data_main: mainData.o data.o
 	$(CC) $(CCFLAGS) -o data_test mainData.o data.o
@@ -11,11 +12,20 @@ data_main: mainData.o data.o
 stree_main: mainSeg.o data.o segment_tree.o
 	$(CC) $(CCFLAGS) -o seg_test mainSeg.o data.o segment_tree.o
 
+sensor_main: mainSensor.o data.o segment_tree.o sensor.o
+	$(CC) $(CCFLAGS) -o sen_test mainSensor.o data.o segment_tree.o sensor.o
+
+mainSensor.o: mainSensor.cpp data.h Array.h segment_tree.h sensor.h
+	$(CC) $(CCFLAGS) -c mainSensor.cpp -o mainSensor.o 
+
 mainData.o: mainData.cpp data.h
 	$(CC) $(CCFLAGS) -c mainData.cpp -o mainData.o 
 
 mainSeg.o: mainSeg.cpp data.h Array.h segment_tree.h
 	$(CC) $(CCFLAGS) -c mainSeg.cpp -o mainSeg.o 
+
+sensor.o: sensor.cpp sensor.h Array.h segment_tree.h data.h
+	$(CC) $(CCFLAGS) -c sensor.cpp -o sensor.o 
 
 data.o: data.cpp data.h
 	$(CC) $(CCFLAGS) -c data.cpp -o data.o 

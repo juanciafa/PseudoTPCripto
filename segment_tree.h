@@ -9,12 +9,13 @@ class segment_tree
 	Array<data> tree_;
 	size_t size_;
 	
-	segment_tree();
-	data _search_interval(size_t,size_t,size_t);
+	data _search_interval(size_t,size_t,size_t) const;
 
 	public:
+	segment_tree();
 	segment_tree(const Array<data> &);
-	data search_interval(size_t ,size_t);
+	segment_tree(const segment_tree & );
+	data search_interval(size_t ,size_t) const;
 	friend std::ostream & operator<<(std::ostream&,const segment_tree&);
 };
 
