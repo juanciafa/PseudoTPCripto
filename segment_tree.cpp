@@ -50,8 +50,7 @@ segment_tree::segment_tree(const Array<data> & arr)
 	}
 	for (size_t i= tree_.size()-size_+arr.size() ; i<tree_.size(); i++)
 	{
-		data d;
-		tree_[i] = d;
+		tree_[i] = data(false,i-size_+1);
 	}
 	for (int i=tree_.size()-size_-1 ; i>=0 ; i--)
 	{
@@ -90,32 +89,24 @@ data segment_tree::_search_interval(size_t pos, size_t start, size_t end) const
 {
 	data root,left,right;
 	size_t pos_l,pos_r;
-	// Me fijo si es hoja
-	if(pos >= tree_.size()-size_)
-	{
-		if( start == tree_[pos].start() && end == tree_[pos].end())
-		
-			return tree_[pos];
-		else
-			return data();
-	}
+
 	root = tree_[pos];
 	if( start == root.start() && end == root.end() )
 		return root;
-	else
-	{
-		pos_l = pos*2+1 ;
-		left = this->_search_interval( pos_l, start, MIN(end,tree_[pos_l].end() ));
 
-		// nodo derecho
-		pos_r = pos_l + 1;
-		right = this->_search_interval( pos_r, MAX(start,tree_[pos_r].start()),end);
-		
-		return data(left,right);
-	}
-	
-	
-} 
+	// Me fijo si es hoja
+	if(pos >= tree_.size()-size_)
+		return data();
+
+	// No es hoja, hago la llamada recursiva
+	pos_l = pos*2+1 ;
+	left = this->_search_interval( pos_l, start, MIN(end,tree_[pos_l].end() ));
+
+	// nodo derecho
+	pos_r = pos_l + 1;
+	right = this->_search_interval( pos_r, MAX(start,tree_[pos_r].start()),end);
+	return data(left,right);
+}
 
 std::ostream & operator<<(std::ostream& os,const segment_tree& stree)
 {

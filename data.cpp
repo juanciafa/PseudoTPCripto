@@ -16,6 +16,14 @@ data::data(double point)
 	sum_ = max_ = min_ = point;
 	num_ = 1;
 }
+
+data::data(bool flag, size_t time)
+{
+	sum_ = max_ = min_ = num_ = 0;
+	start_ = time;
+	end_ = time+1;
+}
+
 data::data(double value,size_t time)
 {
 	sum_ = max_ = min_ = value;
@@ -65,6 +73,7 @@ size_t data::end() const{ return end_; }
 
 data::data(const data & d1,const data& d2)
 {
+	// Caso que se hayan creado sin argumentos, data()
 	if( d1.start() == d1.end() )
 	{
 		sum_ = d2.sum();
@@ -81,6 +90,23 @@ data::data(const data & d1,const data& d2)
 		min_ = d1.min();
 		start_ = d1.start();
 		end_ = d1.end();
+	}else if( d1.num() == 0)
+	// Casos que haya un dato faltante, pero está en el tiempo
+	{
+		sum_ = d2.sum();
+		num_ = d2.num();
+		max_ = d2.max();
+		min_ = d2.min();
+		start_ = MIN( d1.start(),d2.start() );
+		end_ = MAX( d1.end(),d2.end() );
+	}else if( d2.num() == 0)
+	{
+		sum_ = d1.sum();
+		num_ = d1.num();
+		max_ = d1.max();
+		min_ = d1.min();
+		start_ = MIN( d1.start(),d2.start() );
+		end_ = MAX( d1.end(),d2.end() );
 	}else{
 		sum_ = d1.sum() + d2.sum();
 		num_ = d1.num() + d2.num();

@@ -15,6 +15,7 @@ class data
 	data(double,size_t);
 	data(const data &);
 	data(const data &,const data&);
+	data(bool , size_t);
 	void merge(data &);
 	double avr() const;
 	double sum() const;
